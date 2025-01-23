@@ -14,7 +14,12 @@ export class CandidateService {
     await candidate.save();
 
     const embedding = await generateEmbedding(candidate.resume);
-    await upsertEmbedding(candidate._id.toString(), embedding);
+    await upsertEmbedding(candidate._id.toString(), embedding, {
+      type: 'candidate',
+      name: candidate.name,
+      resume: candidate.resume,
+      skills: candidate.skills,
+    });
 
     return candidate;
   }

@@ -17,9 +17,13 @@ export const initPinecone = () => {
 
 const pinecone = initPinecone();
 
-export const upsertEmbedding = async (id: string, embedding: number[]) => {
+export const upsertEmbedding = async (id: string, embedding: number[], metadata?: any) => {
   const index = pinecone.index(indexName);
-  await index.upsert([{ id, values: embedding }]);
+  await index.upsert([{ 
+    id, 
+    values: embedding,
+    metadata 
+  }]);
 };
 
 export const searchEmbedding = async (
@@ -32,5 +36,6 @@ export const searchEmbedding = async (
     topK,
     includeMetadata: true
   });
+  console.log('query response', queryResponse);
   return queryResponse.matches;
 };
